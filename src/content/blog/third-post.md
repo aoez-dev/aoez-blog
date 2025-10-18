@@ -2,7 +2,7 @@
 title: 'Hello World - Testing Auto Deploy'
 description: 'My first real blog post to test the deployment workflow'
 pubDate: 2025-10-18
-heroImage: '/blog-placeholder-3.jpg'
+heroImage: '../../assets/blog-placeholder-4.jpg'
 ---
 
 # Hello World!
