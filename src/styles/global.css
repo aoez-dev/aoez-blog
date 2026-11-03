@@ -30,6 +30,22 @@
     background: var(--bg);
     -webkit-text-size-adjust: 100%;
   }
+  /* Big screens: the UI is built in px, so scale it as a whole (like browser zoom). */
+  @media (min-width: 1700px) {
+    html {
+      zoom: 1.2;
+    }
+  }
+  @media (min-width: 2200px) {
+    html {
+      zoom: 1.4;
+    }
+  }
+  @media (min-width: 3000px) {
+    html {
+      zoom: 1.8;
+    }
+  }
   body {
     margin: 0;
     min-height: 100dvh;
