@@ -1,0 +1,26 @@
+---
+import { renderCrumb, type CrumbItem } from "@/utils/crumb";
+
+export interface Props {
+  crumb: CrumbItem[];
+}
+
+const { crumb } = Astro.props;
+---
+
+<header class="site-h" transition:persist="site-header" data-pagefind-ignore>
+  <div class="frame">
+    <nav
+      class="crumb"
+      id="crumb"
+      aria-label="Breadcrumb"
+      set:html={renderCrumb(crumb)}
+    />
+    <nav class="mainnav" aria-label="Main">
+      <a href="/posts" data-nav="/posts">posts</a>
+      <a href="/about" data-nav="/about">about</a>
+      <button type="button" id="open-search">search</button>
+    </nav>
+    <div id="read-progress" aria-hidden="true" hidden><i></i></div>
+  </div>
+</header>
