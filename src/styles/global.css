@@ -30,25 +30,29 @@
     background: var(--bg);
     -webkit-text-size-adjust: 100%;
   }
-  /* Big screens: the UI is built in px, so scale it as a whole (like browser zoom). */
+  /* Big screens: the UI is built in px, so scale it as a whole (like browser zoom).
+     Viewport heights are in unzoomed px, so divide them by --zoom. */
   @media (min-width: 1700px) {
     html {
       zoom: 1.2;
+      --zoom: 1.2;
     }
   }
   @media (min-width: 2200px) {
     html {
       zoom: 1.4;
+      --zoom: 1.4;
     }
   }
   @media (min-width: 3000px) {
     html {
       zoom: 1.8;
+      --zoom: 1.8;
     }
   }
   body {
     margin: 0;
-    min-height: 100dvh;
+    min-height: calc(100dvh / var(--zoom, 1));
     background: var(--bg);
     color: var(--fg);
     font:
@@ -60,7 +64,7 @@
     -webkit-font-smoothing: antialiased;
   }
   body:has(.terminal-page) {
-    height: 100dvh;
+    height: calc(100dvh / var(--zoom, 1));
     overflow: hidden;
   }
   a {

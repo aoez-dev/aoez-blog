@@ -1,7 +1,8 @@
 /* The homepage: one terminal window (history, pinned prompt or picker, text statusline). */
 .terminal-page {
   height: calc(
-    100dvh - var(--header-h) - max(12px, env(safe-area-inset-bottom, 0px))
+    100dvh / var(--zoom, 1) - var(--header-h) -
+      max(12px, env(safe-area-inset-bottom, 0px))
   );
   padding-bottom: 0;
 }
