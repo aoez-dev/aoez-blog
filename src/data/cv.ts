@@ -179,11 +179,11 @@ const NOVOMIND: Company = {
       duration: "2 yrs 3 mos",
       mode: "Hybrid",
       summary:
-        "In Customer Service I work with my team on developing and integrating AI applications into the novomind iAGENT product. Besides organisational tasks such as roadmap and ticket planning, I am technically responsible for consulting, development, evaluation and provisioning of AI-specific software. I also communicate AI-specific topics to stakeholders, both external customers and internal teams.",
+        "In Customer Service I worked with my team on developing and integrating AI applications into the novomind iAGENT product. Besides organisational tasks such as roadmap and ticket planning, I was technically responsible for consulting, development, evaluation and provisioning of AI-specific software. I also communicated AI-specific topics to stakeholders, both external customers and internal teams.",
       projects: [
         {
           name: "novomind iAGENT AI Agent Assist",
-          text: "Integrating OpenAI's ChatGPT into the novomind iAGENT Desk simplifies the agents' daily work. For incoming customer emails it generates a summary, runs a tone analysis and drafts a fitting reply.",
+          text: "Integrated OpenAI's ChatGPT into the novomind iAGENT Desk to simplify the agents' daily work. For incoming customer emails it generates a summary, runs a tone analysis and drafts a fitting reply.",
           stack: "LangChain, Vue.js, Docker, Weaviate, Python, JavaScript",
         },
         {
@@ -193,7 +193,7 @@ const NOVOMIND: Company = {
         },
         {
           name: "Automatic classification and analysis of customer emails",
-          text: "Based on the results of my master's thesis, a REST API was to be developed that can run configurable training and analysis pipelines.",
+          text: "Based on the results of my master's thesis, I developed a REST API that runs configurable training and analysis pipelines.",
           stack:
             "Hugging Face, Scikit-Learn, MLflow, AutoML, XGBoost, BERT, ZenML, FastAPI, Docker, MinIO, MongoDB, ONNX, Python",
         },
