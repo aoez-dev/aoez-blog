@@ -1,5 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import SnakeGame from "@/components/SnakeGame.astro";
 import { SITE } from "@/config";
 ---
 
@@ -13,6 +14,7 @@ import { SITE } from "@/config";
       <h1 class="pt">404</h1>
       <p class="empty-note">zsh: no such file or directory. Nothing lives here.</p>
       <p style="margin-top:18px"><a class="btn p" href="/">cd ~</a></p>
+      <SnakeGame seed={Astro.url.pathname} />
     </div>
   </main>
 </Layout>
