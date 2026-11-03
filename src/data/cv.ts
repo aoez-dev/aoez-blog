@@ -7,6 +7,13 @@ import thLuebeck from "@/assets/logos/th-luebeck.png";
 // The About page (src/pages/about.astro) renders straight from this file.
 // Logos live in src/assets/logos; an organisation without one gets an initials tile.
 
+export interface Project {
+  name: string;
+  text: string;
+  /** "Tech stack" of the project */
+  stack?: string;
+}
+
 export interface Role {
   title: string;
   /** "Full-time", "Part-time", "Internship" ... */
@@ -19,6 +26,8 @@ export interface Role {
   summary?: string;
   bullets?: string[];
   outcome?: string;
+  /** "References": notable projects of the role */
+  projects?: Project[];
   skills?: string[];
 }
 
@@ -169,6 +178,26 @@ const NOVOMIND: Company = {
       period: "Jan 2022 – Mar 2024",
       duration: "2 yrs 3 mos",
       mode: "Hybrid",
+      summary:
+        "In Customer Service I work with my team on developing and integrating AI applications into the novomind iAGENT product. Besides organisational tasks such as roadmap and ticket planning, I am technically responsible for consulting, development, evaluation and provisioning of AI-specific software. I also communicate AI-specific topics to stakeholders, both external customers and internal teams.",
+      projects: [
+        {
+          name: "novomind iAGENT AI Agent Assist",
+          text: "Integrating OpenAI's ChatGPT into the novomind iAGENT Desk simplifies the agents' daily work. For incoming customer emails it generates a summary, runs a tone analysis and drafts a fitting reply.",
+          stack: "LangChain, Vue.js, Docker, Weaviate, Python, JavaScript",
+        },
+        {
+          name: "QA chatbots based on LLMs such as Llama 2 and ChatGPT",
+          text: "Implemented a Retrieval Augmented Generation (RAG) pipeline that uses an external knowledge base to answer domain-specific questions.",
+          stack: "LlamaIndex, Hugging Face, Gradio, Semantic Search, Python",
+        },
+        {
+          name: "Automatic classification and analysis of customer emails",
+          text: "Based on the results of my master's thesis, a REST API was to be developed that can run configurable training and analysis pipelines.",
+          stack:
+            "Hugging Face, Scikit-Learn, MLflow, AutoML, XGBoost, BERT, ZenML, FastAPI, Docker, MinIO, MongoDB, ONNX, Python",
+        },
+      ],
       skills: NOVOMIND_AI_SKILLS,
     },
     {
@@ -177,6 +206,22 @@ const NOVOMIND: Company = {
       period: "Oct 2017 – Dec 2021",
       duration: "4 yrs 3 mos",
       mode: "On-site",
+      summary:
+        "As part of the novomind iAGENT core team I was responsible for maintenance, documentation and further development of novomind iAGENT, novomind iAGENT Help and novomind iAGENT Composer.",
+      projects: [
+        {
+          name: "novomind Social Media Gateway",
+          text: "Developed a cloud platform that enables the integration of social media platforms such as Facebook or Instagram into novomind iAGENT.",
+        },
+        {
+          name: "Order tracking for OTTO's chatbot “Clara”",
+          text: "Integrated order tracking into the dialogue flow of OTTO's chatbot “Clara” using the OTTO Order Tracking API.",
+        },
+        {
+          name: "novomind iAGENT Composer",
+          text: "As part of a relaunch, the desktop application novomind iAGENT Composer was replaced by a web application.",
+        },
+      ],
       skills: ["Java", "Vue.js", "JavaScript", "OpenNLP"],
     },
     {

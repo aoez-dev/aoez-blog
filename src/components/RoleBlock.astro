@@ -1,0 +1,46 @@
+---
+import SkillChips from "@/components/SkillChips.astro";
+import type { Role } from "@/data/cv";
+
+interface Props {
+  role: Role;
+}
+const { role } = Astro.props;
+const meta = [role.type, role.period, role.duration, role.mode]
+  .filter(Boolean)
+  .join(" · ");
+---
+
+<div class:list={["role", { now: role.current }]}>
+  <b>{role.title}</b>
+  <span>{meta}</span>
+  {role.summary && <p class="role-p">{role.summary}</p>}
+  {
+    role.bullets && (
+      <ul>
+        {role.bullets.map(item => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    )
+  }
+  {role.outcome && <p class="role-p">{role.outcome}</p>}
+  {
+    role.projects && (
+      <ul class="projects">
+        {role.projects.map(project => (
+          <li>
+            <b>{project.name}</b>
+            <span>{project.text}</span>
+            {project.stack && (
+              <span class="stack">
+                <i>Tech stack</i> {project.stack}
+              </span>
+            )}
+          </li>
+        ))}
+      </ul>
+    )
+  }
+  {role.skills && <SkillChips skills={role.skills} />}
+</div>

@@ -3,8 +3,9 @@ import { Image } from "astro:assets";
 import Layout from "@/layouts/Layout.astro";
 import OrgLogo from "@/components/OrgLogo.astro";
 import SkillChips from "@/components/SkillChips.astro";
+import RoleBlock from "@/components/RoleBlock.astro";
 import profile from "@/assets/images/profile.jpg";
-import { CV, type Company, type Role } from "@/data/cv";
+import { CV, type Company } from "@/data/cv";
 import { SOCIALS } from "@/constants";
 import { SITE } from "@/config";
 import { isExternal } from "@/utils/links";
@@ -13,8 +14,6 @@ const socials = SOCIALS.map(social => ({ ...social, Icon: social.icon }));
 const dot = (parts: (string | undefined)[]) => parts.filter(Boolean).join(" · ");
 const companyMeta = (company: Company) =>
   dot([company.type, company.duration, company.location, company.mode]);
-const roleMeta = (role: Role) =>
-  dot([role.type, `${role.period}`, role.duration, role.mode]);
 ---
 
 <Layout
@@ -89,22 +88,7 @@ const roleMeta = (role: Role) =>
                   <span>{companyMeta(company)}</span>
                   </div>
                 </div>
-                {company.roles.map(role => (
-                  <div class:list={["role", { now: role.current }]}>
-                    <b>{role.title}</b>
-                    <span>{roleMeta(role)}</span>
-                    {role.summary && <p class="role-p">{role.summary}</p>}
-                    {role.bullets && (
-                      <ul>
-                        {role.bullets.map(item => (
-                          <li>{item}</li>
-                        ))}
-                      </ul>
-                    )}
-                    {role.outcome && <p class="role-p">{role.outcome}</p>}
-                    {role.skills && <SkillChips skills={role.skills} />}
-                  </div>
-                ))}
+                {company.roles.map(role => <RoleBlock {role} />)}
               </section>
             ))
           }

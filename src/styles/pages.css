@@ -641,3 +641,20 @@ h1.pt {
 .no-posts b {
   color: var(--fg);
 }
+
+.projects li {
+  display: grid;
+  gap: 2px;
+  margin: 10px 0;
+}
+.projects li > b {
+  color: var(--fg);
+}
+.projects .stack {
+  color: var(--dim);
+  font-size: 0.9em;
+}
+.projects .stack i {
+  color: var(--cmt);
+  font-style: normal;
+}
