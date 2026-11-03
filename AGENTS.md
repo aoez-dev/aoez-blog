@@ -43,9 +43,23 @@ Before finishing a change: `npm run lint && npm test && npm run build`. For UI c
 Posts live in `src/data/blog/*.md`. Files starting with `_` are ignored. New posts start as drafts.
 Tags are lowercase words. There are no tag pages for now.
 
+## Decisions (why it is this way)
+
+- **Homepage = terminal session** (Pi / Claude Code style): the blog is for nerds and shows off. Reading pages (posts, about) stay normal pages, so long posts remain readable.
+- **Dark first, Nosferatu default.** 12 palettes (6 dark, 6 light) via `html[data-pal]` tokens; switching is animated (`.theming`).
+- **Terminal output is deterministic** (seeded RNG): same command, same result, testable. Session log stores data, never HTML (XSS-safe).
+- **Logic apart from DOM** and strict ESLint limits (complexity ≤ 5): keeps modules small and unit-testable.
+- **Background is a slow, blurred gradient** ("lava lamp"), kept subtle. Header, breadcrumb and background persist across navigation.
+- **No tag pages, no covers in the terminal**: the terminal lists posts as a git-log style list; covers only on `/posts`.
+- **Search = Pagefind**, generated at build time (`public/pagefind` is not tracked). `/search` redirects to the terminal.
+- **npm only.** Deployment is Vercel (static), so no Docker.
+- **Security headers** live in `vercel.json`. The CSP is report-only first; enforce it once the console on aoez.dev is clean.
+- **Large screens** are scaled with CSS `zoom` (UI is built in px). Viewport heights must be divided by `--zoom`.
+- **Open:** dependency updates ([#1](https://github.com/aoez-dev/aoez-blog/issues/1)), per-post OG images in the terminal look (currently AstroPaper default), logos for AIRSYS and whicee.
+
 ## Git
 
-Conventional Commits (`feat:`, `fix:`, `docs:`, `refactor:`). Do not commit or push unless asked.
+Conventional Commits (`feat:`, `fix:`, `docs:`, `refactor:`). Work on a feature branch and open a PR to `main`; delete the branch after merging. Do not commit or push unless asked.
 
 ## More
 
