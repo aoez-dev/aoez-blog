@@ -1,69 +1,358 @@
 @import "tailwindcss";
+@import "@fontsource-variable/jetbrains-mono";
+@import "@fontsource-variable/ibm-plex-sans";
+@import "./themes.css";
+@import "./terminal.css";
+@import "./pages.css";
 @import "./typography.css";
 
-@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
-
-:root,
-html[data-theme="light"] {
-  --background: #fdfdfd;
-  --foreground: #282728;
-  --accent: #006cac;
-  --muted: #e6e6e6;
-  --border: #ece9e9;
-}
-
-html[data-theme="dark"] {
-  --background: #212737;
-  --foreground: #eaedf3;
-  --accent: #ff6b01;
-  --muted: #343f60;
-  --border: #ab4b08;
-}
-
+/* Tailwind utility colours map onto the theme tokens. */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--bg);
+  --color-foreground: var(--fg);
   --color-accent: var(--accent);
-  --color-muted: var(--muted);
-  --color-border: var(--border);
+  --color-on-accent: var(--ink);
+  --color-muted: var(--surface);
+  --color-dim: var(--dim);
+  --color-border: var(--line);
+  --color-term: var(--bg);
+  --font-mono:
+    "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-sans: "IBM Plex Sans Variable", system-ui, sans-serif;
 }
 
 @layer base {
   * {
-    @apply border-border outline-accent/75;
-    scrollbar-width: auto;
-    scrollbar-color: var(--color-muted) transparent;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line) transparent;
   }
   html {
-    @apply overflow-y-scroll scroll-smooth;
+    background: var(--bg);
+    -webkit-text-size-adjust: 100%;
   }
   body {
-    @apply flex min-h-svh flex-col bg-background font-mono text-foreground selection:bg-accent/75 selection:text-background;
+    margin: 0;
+    min-height: 100dvh;
+    background: var(--bg);
+    color: var(--fg);
+    font:
+      400 14px/1.65 "JetBrains Mono Variable",
+      ui-monospace,
+      SFMono-Regular,
+      Menlo,
+      monospace;
+    -webkit-font-smoothing: antialiased;
   }
-  a,
+  body:has(.terminal-page) {
+    height: 100dvh;
+    overflow: hidden;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  button,
+  input {
+    font: inherit;
+    color: inherit;
+  }
   button {
-    @apply outline-offset-1 outline-accent focus-visible:no-underline focus-visible:outline-2 focus-visible:outline-dashed;
-  }
-  button:not(:disabled),
-  [role="button"]:not(:disabled) {
     cursor: pointer;
+    background: none;
+    border: 0;
+    padding: 0;
+    text-align: left;
   }
-  section,
-  footer {
-    @apply mx-auto max-w-app px-4;
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+  ::selection {
+    background: color-mix(in srgb, var(--accent) 35%, transparent);
   }
 }
 
-@utility max-w-app {
-  @apply max-w-3xl;
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.sr-only:focus-within,
+.sr-only:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  clip: auto;
+  white-space: normal;
+  background: var(--bg);
+  padding: 8px;
 }
 
-.active-nav {
-  @apply underline decoration-wavy decoration-2 underline-offset-4;
+/* ---------- animated background (lava lamp, very quiet) ---------- */
+.gbg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.gbg .b {
+  position: absolute;
+  border-radius: 50%;
+}
+.gbg .b1 {
+  width: 44vmax;
+  height: 44vmax;
+  left: -30vmax;
+  top: -28vmax;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--g1) 14%, transparent),
+    transparent
+  );
+  animation: m1 34s ease-in-out infinite alternate;
+}
+.gbg .b2 {
+  width: 42vmax;
+  height: 42vmax;
+  right: -30vmax;
+  top: 10vh;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--g2) 15%, transparent),
+    transparent
+  );
+  animation: m2 41s ease-in-out infinite alternate;
+}
+.gbg .b3 {
+  width: 36vmax;
+  height: 36vmax;
+  right: -14vmax;
+  bottom: -28vmax;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--g3) 12%, transparent),
+    transparent
+  );
+  animation: m3 48s ease-in-out infinite alternate;
+}
+@keyframes m1 {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(12vmax, 5vmax) scale(1.12);
+  }
+  100% {
+    transform: translate(6vmax, 16vmax) scale(0.94);
+  }
+}
+@keyframes m2 {
+  0% {
+    transform: translate(0, 0) scale(1.04);
+  }
+  50% {
+    transform: translate(-11vmax, 12vmax) scale(0.92);
+  }
+  100% {
+    transform: translate(-5vmax, -6vmax) scale(1.14);
+  }
+}
+@keyframes m3 {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-13vmax, -8vmax) scale(1.15);
+  }
+  100% {
+    transform: translate(4vmax, -16vmax) scale(0.93);
+  }
 }
 
-/* Source: https://piccalil.li/blog/a-more-modern-css-reset/ */
-/* Anything that has been anchored to should have extra scroll margin */
-:target {
-  scroll-margin-block: 1rem;
+/* ---------- site frame + header ---------- */
+.frame {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: calc(1100px + 32px);
+  margin: 0 auto;
+  padding-inline: max(16px, env(safe-area-inset-left, 0px))
+    max(16px, env(safe-area-inset-right, 0px));
+}
+.site-h {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: transparent;
+}
+/* Content that scrolls under the header is blurred and faded out, never tinted. */
+.site-h.scrolled::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 -14px 0;
+  z-index: -1;
+  pointer-events: none;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent);
+}
+.site-h .frame {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  height: var(--header-h);
+  font-size: 14px;
+}
+.crumb {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-right: auto;
+  min-width: 0;
+  white-space: nowrap;
+}
+.crumb .root {
+  font-weight: 700;
+  color: var(--fg);
+}
+.crumb .root i {
+  font-style: normal;
+  color: var(--cmt);
+}
+.crumb .root b {
+  color: var(--accent);
+}
+.crumb a.root:hover {
+  color: var(--accent);
+}
+.crumb .sep {
+  color: var(--cmt);
+}
+.crumb a.seg {
+  color: var(--dim);
+}
+.crumb a.seg:hover {
+  color: var(--fg);
+}
+.crumb .cur {
+  color: var(--fg);
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.crumb .root.cur {
+  font-weight: 700;
+}
+.mainnav {
+  display: flex;
+  gap: 22px;
+}
+.mainnav a,
+.mainnav button {
+  color: var(--dim);
+}
+.mainnav a::before,
+.mainnav button::before {
+  content: "./";
+  color: var(--cmt);
+}
+.mainnav a:hover,
+.mainnav button:hover {
+  color: var(--fg);
+}
+.mainnav .on {
+  color: var(--fg);
+}
+.mainnav .on::before {
+  color: var(--accent);
+}
+#read-progress {
+  position: absolute;
+  left: max(16px, env(safe-area-inset-left, 0px));
+  right: max(16px, env(safe-area-inset-right, 0px));
+  bottom: 0;
+  height: 2px;
+  background: transparent;
+}
+#read-progress[hidden] {
+  display: none;
+}
+#read-progress i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--accent);
+}
+
+/* top-to-bottom reveal used on content pages */
+.rv {
+  animation: fdown 0.5s ease both;
+  animation-delay: calc(var(--i, 0) * 55ms);
+}
+@keyframes fdown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+/* page change: quick cross-fade, header and background stay */
+::view-transition-old(root) {
+  animation: vt-out 0.2s ease both;
+}
+::view-transition-new(root) {
+  animation: vt-in 0.28s ease both;
+}
+@keyframes vt-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes vt-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 720px) {
+  .site-h .frame {
+    gap: 14px;
+    font-size: 13px;
+  }
+  .mainnav {
+    gap: 12px;
+  }
+}
+
+/* The only reduced-motion block (also covers the .theming colour fade). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after,
+  .theming *,
+  .theming *::before,
+  .theming *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+}
+
+@media (pointer: coarse) {
+  .mainnav a,
+  .mainnav button {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding-inline: 4px;
+  }
 }
