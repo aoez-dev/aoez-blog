@@ -1,0 +1,151 @@
+---
+import { Image } from "astro:assets";
+import Layout from "@/layouts/Layout.astro";
+import OrgLogo from "@/components/OrgLogo.astro";
+import SkillChips from "@/components/SkillChips.astro";
+import RoleBlock from "@/components/RoleBlock.astro";
+import profile from "@/assets/images/profile.jpg";
+import { CV, type Company } from "@/data/cv";
+import { SOCIALS } from "@/constants";
+import { SITE } from "@/config";
+import { isExternal } from "@/utils/links";
+
+const socials = SOCIALS.map(social => ({ ...social, Icon: social.icon }));
+const dot = (parts: (string | undefined)[]) => parts.filter(Boolean).join(" · ");
+const companyMeta = (company: Company) =>
+  dot([company.type, company.duration, company.location, company.mode]);
+---
+
+<Layout
+  title={`About | ${SITE.title}`}
+  crumb={[{ label: "~/aoez.dev", href: "/" }, { label: "about" }]}
+>
+  <main id="main-content" class="frame page">
+    <div class="pin abt">
+      <div class="cmd"><b>$</b> cat <u>~/about.md</u></div>
+      <div class="cvh">
+        <div class="av2">
+          <Image
+            src={profile}
+            alt={`Portrait of ${CV.name}`}
+            width={96}
+            height={96}
+            widths={[96, 192]}
+            loading="eager"
+          />
+        </div>
+        <div>
+          <h1>{CV.name}</h1>
+          <p>{CV.headline}</p>
+          <p class="cvh-meta">{CV.location}</p>
+          <div class="btns">
+            {
+              CV.cvPdf && (
+                <a class="btn p" href={CV.cvPdf}>
+                  Download CV
+                </a>
+              )
+            }
+            {
+              socials.map(({ Icon, href, name, linkTitle }) => (
+                <a
+                  class="btn icon"
+                  href={href}
+                  aria-label={linkTitle}
+                  title={name}
+                  target={isExternal(href) ? "_blank" : undefined}
+                  rel={isExternal(href) ? "noopener noreferrer" : undefined}
+                >
+                  <Icon aria-hidden="true" />
+                </a>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="cvg">
+        <div>
+          <h2>About</h2>
+          <p>{CV.summary}</p>
+
+          <h2>Experience</h2>
+          {
+            CV.experience.map(company => (
+              <section class="co">
+                <div class="co-h">
+                  <OrgLogo logo={company.logo} name={company.company} />
+                  <div class="co-t">
+                  <b>
+                    {company.url ? (
+                      <a class="ext" href={company.url} target="_blank" rel="noopener noreferrer">
+                        {company.company}
+                      </a>
+                    ) : (
+                      company.company
+                    )}
+                  </b>
+                  <span>{companyMeta(company)}</span>
+                  </div>
+                </div>
+                {company.roles.map(role => <RoleBlock {role} />)}
+              </section>
+            ))
+          }
+
+          <h2>Education</h2>
+          {
+            CV.education.map(item => (
+              <section class="co">
+                <div class="co-h">
+                  <OrgLogo logo={item.logo} name={item.school} />
+                  <div class="co-t">
+                  <b>
+                    {item.schoolUrl ? (
+                      <a class="ext" href={item.schoolUrl} target="_blank" rel="noopener noreferrer">
+                        {item.school}
+                      </a>
+                    ) : (
+                      item.school
+                    )}
+                  </b>
+                  <span>{dot([item.period, `Grade ${item.grade}`])}</span>
+                  </div>
+                </div>
+                <div class="role">
+                  <b>{item.degree}</b>
+                  <SkillChips skills={item.skills} />
+                </div>
+              </section>
+            ))
+          }
+        </div>
+
+        <aside>
+          <div class="side-b">
+            <h3>skills --top</h3>
+            <div class="chipset">
+              {CV.skillsTop.map(skill => <span class="skill hot">{skill}</span>)}
+              {CV.skills.map(skill => <span class="skill">{skill}</span>)}
+            </div>
+          </div>
+          {
+            CV.languages.length > 0 && (
+              <div class="side-b">
+                <h3>languages</h3>
+                <div class="kv2">
+                  {CV.languages.map(language => (
+                    <span>
+                      <b>{language.name}</b>
+                      <i>{language.level}</i>
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )
+          }
+          </aside>
+      </div>
+    </div>
+  </main>
+</Layout>

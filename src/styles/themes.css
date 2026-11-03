@@ -1,0 +1,308 @@
+/*
+ * Theme palettes. One block per theme, selected with <html data-pal="...">.
+ * Dark: nosferatu (default), iris, ember, teal, moss, rosewood.
+ * Light: paper, daylight, latte, mint, sage, blush.
+ *
+ * Tokens
+ *   --bg --surface --line   backgrounds and borders
+ *   --fg --dim --cmt        text, secondary text, tertiary text
+ *   --accent --ink          main highlight and the text colour on top of it
+ *   --pink --green --cyan --orange --yellow --red   secondary highlights (code, status)
+ *   --g1 --g2 --g3          banner / background gradient stops
+ *   --comp                  complementary colour for `$` prompts on pages
+ *   --shd                   shadow colour
+ */
+:root {
+  color-scheme: dark;
+  --shd: rgba(0, 0, 0, 0.4);
+  --bg: #0e0d14;
+  --surface: #15141e;
+  --line: #2a2940;
+  --fg: #ebe9f5;
+  --dim: #9e9ab9;
+  --cmt: #7f7ba3;
+  --ink: #0e0d14;
+  --accent: #a98bf5;
+  --pink: #f06bb8;
+  --green: #4fe68a;
+  --cyan: #6fd3e6;
+  --orange: #f0b068;
+  --yellow: #e6dc7a;
+  --red: #f05a5a;
+  --g1: #a98bf5;
+  --g2: #d77be0;
+  --g3: #f06bb8;
+  --comp: #e6c77a;
+
+  /* layout, radii and window-chrome tokens (not theme specific) */
+  --header-h: 54px;
+  --r-sm: 5px;
+  --r-md: 8px;
+  --r-lg: 12px;
+  --tl-r: #ff5f57;
+  --tl-y: #febc2e;
+  --tl-g: #28c840;
+}
+
+html[data-pal="iris"] {
+  --bg: #12141f;
+  --surface: #191c2a;
+  --line: #2d3250;
+  --fg: #e9ebf5;
+  --dim: #9aa0c0;
+  --cmt: #7a84ad;
+  --ink: #12141f;
+  --accent: #8f9bff;
+  --pink: #f58fc2;
+  --green: #6ee7b0;
+  --cyan: #7adcf0;
+  --orange: #f2b87a;
+  --yellow: #eee38a;
+  --red: #f47a7a;
+  --g1: #8f9bff;
+  --g2: #b394ff;
+  --g3: #ff9ad1;
+  --comp: #f2b87a;
+}
+html[data-pal="ember"] {
+  --bg: #0f0d0b;
+  --surface: #181512;
+  --line: #2e2924;
+  --fg: #f1ece4;
+  --dim: #a59d91;
+  --cmt: #887e70;
+  --ink: #1a1203;
+  --accent: #f2a33c;
+  --pink: #e8798f;
+  --green: #7fc47a;
+  --cyan: #6fb8c4;
+  --orange: #e8894a;
+  --yellow: #e8d27a;
+  --red: #e05a4a;
+  --g1: #f2a33c;
+  --g2: #e8894a;
+  --g3: #e8798f;
+  --comp: #6fa8e8;
+}
+html[data-pal="teal"] {
+  --bg: #07131a;
+  --surface: #0d1e27;
+  --line: #17303b;
+  --fg: #e6f1f3;
+  --dim: #8ba4ac;
+  --cmt: #618b98;
+  --ink: #04211c;
+  --accent: #4fd8c4;
+  --pink: #f08fb4;
+  --green: #8ee08a;
+  --cyan: #6fc3f0;
+  --orange: #f0b462;
+  --yellow: #e8e08a;
+  --red: #f0705e;
+  --g1: #4fd8c4;
+  --g2: #6fc3f0;
+  --g3: #a98bf5;
+  --comp: #f08a6e;
+}
+html[data-pal="moss"] {
+  --bg: #0b110d;
+  --surface: #111a14;
+  --line: #1f2e24;
+  --fg: #e8efe6;
+  --dim: #8fa392;
+  --cmt: #6e8973;
+  --ink: #0b140c;
+  --accent: #9ece6a;
+  --pink: #e08ab0;
+  --green: #6fd3a0;
+  --cyan: #6fc8c0;
+  --orange: #e0b060;
+  --yellow: #e6dc7a;
+  --red: #e0705e;
+  --g1: #9ece6a;
+  --g2: #e0d56a;
+  --g3: #6fd3a0;
+  --comp: #d98ae0;
+}
+html[data-pal="rosewood"] {
+  --bg: #140d12;
+  --surface: #1d1218;
+  --line: #33202b;
+  --fg: #f1e6ea;
+  --dim: #ad99a2;
+  --cmt: #967785;
+  --ink: #2a0a18;
+  --accent: #e07a9a;
+  --pink: #ff8fb5;
+  --green: #8ed6a0;
+  --cyan: #7fc8d8;
+  --orange: #f0b080;
+  --yellow: #ecd88a;
+  --red: #f06a6a;
+  --g1: #e07a9a;
+  --g2: #f0a07a;
+  --g3: #c58bf0;
+  --comp: #8ed6a0;
+}
+
+/* ---- light ---- */
+html[data-pal="paper"] {
+  color-scheme: light;
+  --shd: rgba(50, 30, 110, 0.18);
+  --bg: #f4f1fb;
+  --surface: #e7e2f4;
+  --line: #b9b0d6;
+  --fg: #15102a;
+  --dim: #3f3862;
+  --cmt: #675f8c;
+  --ink: #ffffff;
+  --accent: #5a3fc8;
+  --pink: #a8226f;
+  --green: #157a4a;
+  --cyan: #0f6f8c;
+  --orange: #a85208;
+  --yellow: #7d6700;
+  --red: #b52a2a;
+  --g1: #5a3fc8;
+  --g2: #9a3fb5;
+  --g3: #c2336f;
+  --comp: #8f6a00;
+}
+html[data-pal="daylight"] {
+  color-scheme: light;
+  --shd: rgba(40, 50, 130, 0.18);
+  --bg: #f1f3fb;
+  --surface: #e2e6f6;
+  --line: #aeb6dc;
+  --fg: #121631;
+  --dim: #3a4478;
+  --cmt: #596496;
+  --ink: #ffffff;
+  --accent: #3a4cd0;
+  --pink: #b02377;
+  --green: #127a58;
+  --cyan: #0d6f9c;
+  --orange: #a85a0e;
+  --yellow: #7d6e00;
+  --red: #b63030;
+  --g1: #3a4cd0;
+  --g2: #6a48d0;
+  --g3: #b83d86;
+  --comp: #a8620a;
+}
+html[data-pal="latte"] {
+  color-scheme: light;
+  --shd: rgba(90, 55, 15, 0.18);
+  --bg: #f6f0e4;
+  --surface: #eadfcb;
+  --line: #c5b595;
+  --fg: #231a0f;
+  --dim: #54463a;
+  --cmt: #6e604e;
+  --ink: #ffffff;
+  --accent: #a85200;
+  --pink: #a8304c;
+  --green: #2e7438;
+  --cyan: #1d6d80;
+  --orange: #9a4400;
+  --yellow: #7a6400;
+  --red: #b02d1f;
+  --g1: #a85200;
+  --g2: #c23d2a;
+  --g3: #a02f68;
+  --comp: #245a9a;
+}
+html[data-pal="mint"] {
+  color-scheme: light;
+  --shd: rgba(15, 80, 70, 0.18);
+  --bg: #eef7f4;
+  --surface: #dcece6;
+  --line: #a6c9bd;
+  --fg: #0c2923;
+  --dim: #2f5a50;
+  --cmt: #4b6e64;
+  --ink: #ffffff;
+  --accent: #0a7d6e;
+  --pink: #a82a66;
+  --green: #1f7a38;
+  --cyan: #136ea0;
+  --orange: #a85a10;
+  --yellow: #7a6e00;
+  --red: #bc3a2a;
+  --g1: #0a7d6e;
+  --g2: #136ea0;
+  --g3: #5a40c0;
+  --comp: #c0462a;
+}
+html[data-pal="sage"] {
+  color-scheme: light;
+  --shd: rgba(40, 70, 25, 0.18);
+  --bg: #f1f6ec;
+  --surface: #e1ead7;
+  --line: #b3c5a2;
+  --fg: #172312;
+  --dim: #3f5238;
+  --cmt: #5a6c51;
+  --ink: #ffffff;
+  --accent: #3a7010;
+  --pink: #a42f68;
+  --green: #1f7a45;
+  --cyan: #176a7a;
+  --orange: #a85a08;
+  --yellow: #766800;
+  --red: #b8362a;
+  --g1: #3a7010;
+  --g2: #8a7c08;
+  --g3: #1f7a45;
+  --comp: #8a32a8;
+}
+html[data-pal="blush"] {
+  color-scheme: light;
+  --shd: rgba(130, 40, 60, 0.18);
+  --bg: #faf0f2;
+  --surface: #f0dde2;
+  --line: #d0aab5;
+  --fg: #2a121a;
+  --dim: #5c3d48;
+  --cmt: #7c5a65;
+  --ink: #ffffff;
+  --accent: #b82e57;
+  --pink: #cc3377;
+  --green: #1f7a50;
+  --cyan: #166e8a;
+  --orange: #a85a10;
+  --yellow: #766800;
+  --red: #b82424;
+  --g1: #b82e57;
+  --g2: #c8603a;
+  --g3: #7438b8;
+  --comp: #1f7a60;
+}
+
+/* Syntax highlighting follows the palette (Shiki "css-variables" theme). */
+:root {
+  --astro-code-foreground: var(--fg);
+  --astro-code-background: var(--surface);
+  --astro-code-token-constant: var(--orange);
+  --astro-code-token-string: var(--yellow);
+  --astro-code-token-comment: var(--cmt);
+  --astro-code-token-keyword: var(--pink);
+  --astro-code-token-parameter: var(--fg);
+  --astro-code-token-function: var(--green);
+  --astro-code-token-string-expression: var(--yellow);
+  --astro-code-token-punctuation: var(--dim);
+  --astro-code-token-link: var(--cyan);
+}
+
+/* Smooth colour change while the theme is switched (class set by themeSet()). */
+.theming *,
+.theming *::before,
+.theming *::after {
+  transition:
+    background-color 0.7s ease,
+    color 0.7s ease,
+    border-color 0.7s ease,
+    fill 0.7s ease,
+    stroke 0.7s ease,
+    box-shadow 0.7s ease !important;
+}

@@ -1,0 +1,596 @@
+/* The homepage: one terminal window (history, pinned prompt or picker, text statusline). */
+.terminal-page {
+  height: calc(
+    100dvh / var(--zoom, 1) - var(--header-h) -
+      max(12px, env(safe-area-inset-bottom, 0px))
+  );
+  padding-bottom: 0;
+}
+.terminal-page .win {
+  height: 100%;
+}
+.win {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background: color-mix(in srgb, var(--bg) 84%, transparent);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 24px 70px var(--shd);
+}
+.wbar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 36px;
+  padding-inline: 14px;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--surface) 85%, transparent);
+  font-size: 12px;
+  color: var(--cmt);
+}
+.lights {
+  display: flex;
+  gap: 8px;
+  opacity: 0.75;
+}
+.lights i {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: block;
+}
+.lights i:nth-child(1) {
+  background: var(--tl-r);
+}
+.lights i:nth-child(2) {
+  background: var(--tl-y);
+}
+.lights i:nth-child(3) {
+  background: var(--tl-g);
+}
+.wbar .ttl {
+  flex: 1;
+  text-align: center;
+  margin-right: 52px;
+}
+
+.sess {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 22px 28px 0;
+}
+.sess::after {
+  content: "";
+  display: block;
+  height: 55%;
+}
+pre.ascii {
+  margin: 0 0 12px;
+  font:
+    700 clamp(5px, 1.1vw, 11.6px) / 1.06 "JetBrains Mono Variable",
+    monospace;
+  overflow: hidden;
+  white-space: pre;
+}
+.c {
+  transition: color 0.25s;
+  color: var(--bc, var(--accent));
+}
+.c.hot {
+  color: var(--fg);
+}
+.who {
+  font-size: 14px;
+}
+.who span {
+  color: var(--accent);
+}
+.hints {
+  color: var(--cmt);
+  font-size: 12.5px;
+}
+.hints b {
+  color: var(--dim);
+  font-weight: 500;
+}
+.intro {
+  margin: 12px 0 10px;
+  max-width: 64ch;
+}
+.ctx {
+  color: var(--cmt);
+  font-size: 12.5px;
+  margin-bottom: 22px;
+}
+.ctx em {
+  font-style: normal;
+  color: var(--dim);
+}
+.ctx b {
+  color: var(--dim);
+  font-weight: 500;
+}
+
+.ent {
+  margin-bottom: 16px;
+}
+.echo-ent {
+  background: color-mix(in srgb, var(--accent) 11%, var(--surface));
+  padding: 7px 12px;
+  border-radius: var(--r-sm);
+  display: flex;
+  gap: 10px;
+}
+.echo-ent .sl,
+.echo-ent .sh {
+  color: var(--accent);
+}
+.pr {
+  color: var(--accent);
+  font-weight: 700;
+  flex: none;
+}
+.think {
+  color: var(--dim);
+  margin-bottom: 16px;
+}
+.think .g {
+  display: inline-block;
+  width: 2ch;
+  color: var(--accent);
+}
+.rs {
+  color: var(--dim);
+}
+.rs::before {
+  content: "\23BF  ";
+  color: var(--cmt);
+}
+.cost {
+  color: var(--cmt);
+  font-size: 11.5px;
+  margin-top: 8px;
+}
+.cost::before {
+  content: none;
+}
+
+.hl {
+  display: grid;
+  gap: 1px;
+}
+.hl button {
+  display: grid;
+  grid-template-columns: 23ch 1fr;
+  gap: 12px;
+  padding: 1px 6px;
+  margin-inline: -6px;
+  border-radius: var(--r-sm);
+  color: var(--dim);
+  width: calc(100% + 12px);
+}
+.hl button b {
+  font-weight: 500;
+  color: var(--accent);
+}
+.hl button:hover {
+  background: var(--surface);
+  color: var(--fg);
+}
+.sec {
+  color: var(--cmt);
+  font-size: 12px;
+  margin: 10px 0 2px;
+}
+.sec b {
+  color: var(--dim);
+  font-weight: 500;
+}
+.wh h2 {
+  margin: 0 0 6px;
+  font:
+    800 clamp(22px, 3.4vw, 34px) / 1.1 "JetBrains Mono Variable",
+    monospace;
+  letter-spacing: -0.04em;
+}
+.wh h2 span {
+  display: block;
+  color: var(--accent);
+}
+.wh p {
+  margin: 0 0 10px;
+  max-width: 62ch;
+}
+.soc {
+  display: flex;
+  gap: 16px;
+  color: var(--dim);
+}
+.soc a:hover {
+  color: var(--accent);
+}
+
+/* commit-style list (static) */
+.cm {
+  display: grid;
+}
+.cmr {
+  display: grid;
+  grid-template-columns: 2ch 8ch minmax(0, 1fr) auto;
+  gap: 0 10px;
+  padding: 2px 6px;
+  margin-inline: -6px;
+  border-radius: var(--r-sm);
+  width: calc(100% + 12px);
+  align-items: baseline;
+}
+.cmr .g {
+  color: var(--accent);
+}
+.cmr .h {
+  color: var(--cmt);
+}
+.cmr .dec {
+  color: var(--cmt);
+}
+.cmr .dec em {
+  font-style: normal;
+  color: var(--accent);
+}
+.cmr .dec u {
+  text-decoration: none;
+  color: var(--dim);
+}
+.cmr .msg {
+  min-width: 0;
+}
+.cmr .mt {
+  color: var(--cmt);
+  font-size: 12px;
+  white-space: nowrap;
+}
+.cmr:hover {
+  background: var(--surface);
+}
+.cmr:hover .ttl {
+  color: var(--accent);
+}
+.cmb {
+  display: grid;
+  grid-template-columns: 2ch 8ch minmax(0, 1fr) auto;
+  gap: 0 10px;
+  padding: 0 6px;
+  margin: -1px -6px 3px;
+}
+.cmb .g {
+  color: var(--cmt);
+}
+.cmb .bd {
+  color: var(--dim);
+  font:
+    400 13.5px / 1.5 "IBM Plex Sans Variable",
+    sans-serif;
+}
+.grep a {
+  display: block;
+  padding: 1px 6px;
+  margin-inline: -6px;
+  border-radius: var(--r-sm);
+  color: var(--dim);
+}
+.grep a:hover {
+  background: var(--surface);
+}
+.grep b {
+  color: var(--accent);
+  font-weight: 500;
+}
+.grep i {
+  font-style: normal;
+  color: var(--cmt);
+}
+mark {
+  background: color-mix(in srgb, var(--yellow) 28%, transparent);
+  color: var(--fg);
+  border-radius: 2px;
+  padding: 0 1px;
+}
+
+/* ---------- pinned bottom: prompt | picker, then statusline ---------- */
+.bottom {
+  flex: none;
+  border-top: 1px solid var(--line);
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+}
+.box {
+  margin: 12px 16px 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid color-mix(in srgb, var(--accent) 50%, var(--line));
+  border-radius: var(--r-md);
+  padding: 6px 8px 6px 12px;
+  background: var(--bg);
+  min-height: 42px;
+  transition: border-color 0.2s;
+}
+.box:focus-within {
+  border-color: var(--accent);
+}
+.field {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+}
+.field input {
+  width: 100%;
+  background: none;
+  border: 0;
+  outline: 0;
+  color: var(--fg);
+  font-size: 13.5px;
+  padding: 0;
+}
+.field.empty input {
+  caret-color: transparent;
+}
+.ovl {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  pointer-events: none;
+  white-space: pre;
+  overflow: hidden;
+  font-size: 13.5px;
+}
+.field.empty .ovl {
+  display: flex;
+}
+.ovl .cur {
+  display: inline-block;
+  width: 0.55em;
+  height: 1.1em;
+  background: var(--accent);
+  margin-right: 6px;
+  flex: none;
+  animation: blink 1.2s steps(1) infinite;
+}
+.ovl .ph {
+  color: var(--cmt);
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+.kb {
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  padding: 2px 9px;
+  color: var(--dim);
+  font-size: 12px;
+  flex: none;
+}
+.kb:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.pick {
+  margin: 12px 16px 6px;
+  border: 1px solid var(--accent);
+  border-radius: var(--r-md);
+  background: var(--bg);
+  padding: 12px 14px 10px;
+  display: grid;
+  gap: 8px;
+}
+.pick[hidden],
+.box[hidden] {
+  display: none;
+}
+.pick h4 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+}
+.opt {
+  display: grid;
+  grid-template-columns: 2ch 1fr auto;
+  gap: 8px;
+  padding: 3px 8px;
+  border-radius: var(--r-sm);
+  align-items: baseline;
+  width: 100%;
+}
+.opt .cr {
+  color: transparent;
+}
+.opt.on {
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+}
+.opt.on .cr,
+.opt.on .nm {
+  color: var(--accent);
+}
+.opt .ds {
+  color: var(--dim);
+  font-size: 12px;
+}
+.opt .nm i {
+  font-style: normal;
+  margin-right: 10px;
+  display: inline-flex;
+  gap: 2px;
+  vertical-align: -1px;
+}
+.opt .nm i s {
+  width: 8px;
+  height: 10px;
+  display: block;
+  border-radius: 1px;
+}
+.pfoot {
+  color: var(--cmt);
+  font-size: 11.5px;
+}
+.pick .grp {
+  display: flex;
+  gap: 6px;
+}
+.pick .grp button {
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  padding: 0 10px;
+  color: var(--cmt);
+  font-size: 12px;
+}
+.pick .grp button.on {
+  background: var(--accent);
+  color: var(--ink);
+  border-color: var(--accent);
+  font-weight: 700;
+}
+.sq {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 8px;
+}
+.sq:focus-within {
+  border-bottom-color: var(--accent);
+}
+.sq input {
+  flex: 1;
+  background: none;
+  border: 0;
+  outline: 0;
+  color: var(--fg);
+  font-size: 13.5px;
+}
+.sgrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 14px;
+}
+.sgrid .rsl {
+  display: grid;
+  gap: 2px;
+  align-content: start;
+  min-height: 120px;
+}
+.sgrid .pv {
+  border-left: 1px solid var(--line);
+  padding-left: 14px;
+  display: grid;
+  gap: 6px;
+  align-content: start;
+  font-size: 12.5px;
+  min-width: 0;
+}
+.sgrid .pv b {
+  font-size: 13.5px;
+}
+.sgrid .pv p {
+  margin: 0;
+  color: var(--dim);
+  font:
+    400 13px / 1.5 "IBM Plex Sans Variable",
+    sans-serif;
+}
+.stat {
+  padding: 0 16px 9px;
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  color: var(--cmt);
+}
+.stat .l {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  min-width: 0;
+  overflow: hidden;
+}
+.stat .mode {
+  background: var(--accent);
+  color: var(--ink);
+  padding: 0 7px;
+  font-weight: 700;
+}
+.stat .tip {
+  color: var(--dim);
+  font-style: italic;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 720px) {
+  .terminal-page {
+    padding-inline: 0;
+  }
+  .win {
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+  }
+  .sess {
+    padding: 16px 14px 0;
+  }
+  .hl button {
+    grid-template-columns: 15ch 1fr;
+  }
+  .cmr,
+  .cmb {
+    grid-template-columns: 2ch minmax(0, 1fr) auto;
+  }
+  .cmr .h,
+  .cmb span:nth-child(2) {
+    display: none;
+  }
+  .box,
+  .pick {
+    margin: 10px 10px 6px;
+  }
+  .sgrid {
+    grid-template-columns: 1fr;
+  }
+  .sgrid .pv {
+    display: none;
+  }
+  .stat {
+    padding: 2px 12px 8px;
+  }
+  .stat .tip,
+  .stat .st {
+    display: none;
+  }
+}
+
+@media (pointer: coarse) {
+  .kb,
+  .pick .grp button,
+  .opt {
+    min-height: 40px;
+    padding-block: 8px;
+    align-items: center;
+  }
+  .kb,
+  .pick .grp button {
+    display: inline-flex;
+  }
+}

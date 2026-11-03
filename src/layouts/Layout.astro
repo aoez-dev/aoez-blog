@@ -3,6 +3,9 @@ import { ClientRouter } from "astro:transitions";
 import { PUBLIC_GOOGLE_SITE_VERIFICATION } from "astro:env/client";
 import { SITE } from "@/config";
 import "@/styles/global.css";
+import SiteHeader from "@/components/SiteHeader.astro";
+import { PALS, DEFAULT_PAL, PAL_STORAGE_KEY } from "@/lib/themes";
+import type { CrumbItem } from "@/utils/crumb";
 
 export interface Props {
   title?: string;
@@ -14,6 +17,7 @@ export interface Props {
   pubDatetime?: Date;
   modDatetime?: Date | null;
   scrollSmooth?: boolean;
+  crumb?: CrumbItem[];
 }
 
 const {
@@ -26,6 +30,7 @@ const {
   pubDatetime,
   modDatetime,
   scrollSmooth = false,
+  crumb = [{ label: "~/aoez.dev" }],
 } = Astro.props;
 
 const socialImageURL = new URL(ogImage, Astro.url);
@@ -51,7 +56,7 @@ const structuredData = {
 <html
   dir={SITE.dir}
   lang=`${SITE.lang ?? "en"}`
-  class={`${scrollSmooth && "scroll-smooth"}`}
+  class={scrollSmooth ? "scroll-smooth" : undefined}
 >
   <head>
     <meta charset="UTF-8" />
@@ -102,7 +107,7 @@ const structuredData = {
     <script
       type="application/ld+json"
       is:inline
-      set:html={JSON.stringify(structuredData)}
+      set:html={JSON.stringify(structuredData).replace(/</g, "\\u003c")}
     />
 
     <!-- Enable RSS feed auto-discovery  -->
@@ -114,7 +119,7 @@ const structuredData = {
       href={new URL("rss.xml", Astro.site)}
     />
 
-    <meta name="theme-color" content="" />
+    <meta name="x-crumb" content={JSON.stringify(crumb)} />
 
     {
       // If PUBLIC_GOOGLE_SITE_VERIFICATION is set in the environment variable,
@@ -130,18 +135,31 @@ const structuredData = {
 
     <ClientRouter />
 
-    <script is:inline src="/toggle-theme.js"></script>
+    <!-- Theme: set before first paint and again after every page swap -->
+    <script
+      is:inline
+      define:vars={{ ids: PALS.map(p => p.id), def: DEFAULT_PAL, key: PAL_STORAGE_KEY }}
+    >
+      const applyPal = () => {
+        let v = def;
+        try {
+          const saved = localStorage.getItem(key);
+          if (saved && ids.includes(saved)) v = saved;
+        } catch {}
+        document.documentElement.dataset.pal = v;
+      };
+      applyPal();
+      document.addEventListener("astro:after-swap", applyPal);
+    </script>
   </head>
   <body>
+    <div class="gbg" aria-hidden="true" transition:persist="gbg">
+      <i class="b b1"></i><i class="b b2"></i><i class="b b3"></i>
+    </div>
+    <SiteHeader {crumb} />
     <slot />
+    <script>
+      import "@/scripts/site";
+    </script>
   </body>
 </html>
-
-<style>
-  html,
-  body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-  }
-</style>

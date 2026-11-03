@@ -1,119 +1,193 @@
-@plugin '@tailwindcss/typography';
+/* Article body. Sans text, mono headings and code, everything follows the palette. */
+.art {
+  max-width: 900px;
+  min-width: 0;
+  font:
+    400 18px / 1.8 "IBM Plex Sans Variable",
+    system-ui,
+    sans-serif;
+}
+.art > :first-child {
+  margin-top: 0;
+}
+.art p,
+.art ul,
+.art ol {
+  margin: 0 0 18px;
+}
+.art ul,
+.art ol {
+  padding-left: 1.4em;
+}
+.art li {
+  margin: 4px 0;
+}
+.art li::marker {
+  color: var(--cmt);
+}
+.art h2,
+.art h3,
+.art h4 {
+  font-family: "JetBrains Mono Variable", monospace;
+  letter-spacing: -0.02em;
+  scroll-margin-top: 80px;
+}
+.art h2 {
+  font-size: 21px;
+  line-height: 1.25;
+  margin: 38px 0 10px;
+  font-weight: 700;
+}
+.art h2::before {
+  content: "## ";
+  color: var(--accent);
+}
+.art h3 {
+  font-size: 17px;
+  line-height: 1.3;
+  margin: 28px 0 8px;
+  font-weight: 700;
+}
+.art h3::before {
+  content: "### ";
+  color: var(--cmt);
+}
+.art a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent);
+  text-underline-offset: 4px;
+  overflow-wrap: anywhere;
+}
+.art a:hover {
+  text-decoration-color: var(--accent);
+}
+.art hr {
+  border: 0;
+  border-top: 1px dashed var(--line);
+  margin: 36px 0;
+}
+.art img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 24px auto;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line);
+}
+.art figcaption {
+  color: var(--dim);
+  font-size: 14px;
+  text-align: center;
+}
+.art blockquote {
+  margin: 22px 0;
+  padding: 4px 18px;
+  border-left: 2px dashed var(--accent);
+  background: var(--surface);
+  border-radius: 0 var(--r-md) var(--r-md) 0;
+  color: var(--fg);
+}
+.art blockquote p {
+  margin: 10px 0;
+}
+.art table {
+  display: block;
+  overflow-x: auto;
+  border-collapse: collapse;
+  margin: 22px 0;
+  font-size: 15px;
+}
+.art th,
+.art td {
+  border: 1px solid var(--line);
+  padding: 6px 12px;
+}
+.art th {
+  background: var(--surface);
+  text-align: left;
+}
+.art :not(pre) > code {
+  font-family: "JetBrains Mono Variable", monospace;
+  font-size: 0.84em;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  padding: 1px 6px;
+  border-radius: var(--r-sm);
+  overflow-wrap: anywhere;
+}
 
-@layer base {
-  /* ===== Override default Tailwind Typography styles ===== */
-  .app-prose {
-    @apply prose;
+/* code blocks (Shiki, css-variables theme) */
+.art pre {
+  position: relative;
+  margin: 22px 0;
+  padding: 14px 0;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface) !important;
+  color: var(--fg);
+  /* Astro sets overflow-x:auto inline; the file name label sits half outside the block, so undo it.
+     The code itself scrolls (see pre code). */
+  overflow: visible !important;
+  font:
+    400 13px / 1.7 "JetBrains Mono Variable",
+    monospace;
+}
+.art pre code {
+  display: block;
+  overflow-x: auto;
+  font: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+}
+.art pre .code-file {
+  border-color: var(--line);
+  background: var(--bg);
+  color: var(--dim);
+}
+.art pre .line {
+  display: inline-block;
+  min-width: 100%;
+  padding: 0 16px;
+}
+.art pre .line.diff.add {
+  background: color-mix(in srgb, var(--green) 11%, transparent);
+  box-shadow: inset 3px 0 var(--green);
+}
+.art pre .line.diff.remove {
+  background: color-mix(in srgb, var(--red) 11%, transparent);
+  box-shadow: inset 3px 0 var(--red);
+  opacity: 0.85;
+}
+.art pre .line.highlighted {
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  box-shadow: inset 3px 0 var(--accent);
+}
+.art pre .highlighted-word {
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 0 2px;
+}
+.copy-code {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  padding: 2px 9px;
+  background: var(--bg);
+  color: var(--cmt);
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+.copy-code:hover {
+  color: var(--fg);
+}
 
-    h1,
-    h2,
-    h3,
-    h4,
-    th {
-      @apply mb-3 text-foreground;
-    }
-
-    h3 {
-      @apply italic;
-    }
-
-    p,
-    strong,
-    ol,
-    ul,
-    figcaption,
-    table,
-    code {
-      @apply text-foreground;
-    }
-
-    a {
-      @apply break-words text-foreground decoration-dashed underline-offset-4 hover:text-accent focus-visible:no-underline;
-    }
-
-    ul {
-      @apply overflow-x-clip;
-    }
-
-    li {
-      @apply marker:text-accent;
-    }
-
-    hr {
-      @apply border-border;
-    }
-
-    img {
-      @apply mx-auto border border-border;
-    }
-
-    figcaption {
-      @apply opacity-75;
-    }
-
-    table {
-      th,
-      td {
-        @apply border border-border p-2;
-      }
-
-      th {
-        @apply py-1.5;
-      }
-
-      code {
-        @apply break-all sm:break-normal;
-      }
-    }
-
-    code {
-      @apply rounded bg-muted/75 p-1 break-words text-foreground before:content-none after:content-none;
-    }
-
-    .astro-code code {
-      @apply flex-[1_0_100%] bg-inherit p-0;
-    }
-
-    blockquote {
-      @apply border-s-accent/80 break-words opacity-80;
-    }
-
-    details {
-      @apply inline-block cursor-pointer text-foreground select-none [&_p]:hidden [&_ul]:!my-0;
-    }
-
-    summary {
-      @apply focus-visible:no-underline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent focus-visible:outline-dashed;
-    }
-
-    pre {
-      @apply focus-visible:border-transparent focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-dashed;
-    }
-  }
-
-  /* ===== Code Blocks & Syntax Highlighting ===== */
-  .astro-code {
-    @apply flex border bg-(--shiki-light-bg) text-(--shiki-light) outline-border [&_span]:text-(--shiki-light);
-  }
-
-  html[data-theme="dark"] .astro-code {
-    @apply bg-(--shiki-dark-bg) text-(--shiki-dark) [&_span]:text-(--shiki-dark);
-  }
-
-  /* Styles for Shiki transformers */
-  /* https://shiki.style/packages/transformers */
-  .astro-code {
-    .line.diff.add {
-      @apply relative inline-block w-full bg-green-400/20 before:absolute before:-left-3 before:text-green-500 before:content-['+'];
-    }
-    .line.diff.remove {
-      @apply relative inline-block w-full bg-red-500/20 before:absolute before:-left-3 before:text-red-500 before:content-['-'];
-    }
-    .line.highlighted {
-      @apply inline-block w-full bg-slate-400/20;
-    }
-    .highlighted-word {
-      @apply rounded-sm border border-border px-0.5 py-px;
-    }
+@media (pointer: coarse) {
+  .copy-code {
+    min-height: 40px;
+    padding: 8px 14px;
   }
 }

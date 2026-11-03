@@ -1,0 +1,24 @@
+---
+export interface Props {
+  skills: string[];
+  /** how many chips are visible before "+N more" */
+  shown?: number;
+}
+
+const { skills, shown = 5 } = Astro.props;
+const rest = skills.slice(shown);
+---
+
+<div class="chipset">
+  {skills.slice(0, shown).map(skill => <span class="skill">{skill}</span>)}
+  {
+    rest.length > 0 && (
+      <details class="more">
+        <summary>+{rest.length} more</summary>
+        <div class="chipset">
+          {rest.map(skill => <span class="skill">{skill}</span>)}
+        </div>
+      </details>
+    )
+  }
+</div>
