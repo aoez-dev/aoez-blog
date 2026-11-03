@@ -658,3 +658,124 @@ h1.pt {
   color: var(--cmt);
   font-style: normal;
 }
+
+/* 404 snake */
+.snake {
+  margin-top: 36px;
+  max-width: 680px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  overflow: hidden;
+}
+.snake-head {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--line);
+}
+.snake-head h2 {
+  margin: 0;
+  font:
+    700 clamp(16px, 2.4vw, 20px) / 1.3 "JetBrains Mono Variable",
+    monospace;
+  color: var(--fg);
+}
+.snake-head p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--dim);
+}
+.snake-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 150px;
+  gap: 18px;
+  padding: 18px;
+}
+.snake-board {
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  line-height: 0;
+  touch-action: none;
+}
+.snake-board:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.snake-board canvas {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+}
+.snake-fancy {
+  background: linear-gradient(
+    90deg,
+    var(--g1),
+    var(--g2),
+    var(--g3),
+    var(--g1)
+  );
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: snake-shine 4s linear infinite;
+}
+@keyframes snake-shine {
+  to {
+    background-position: -300% 0;
+  }
+}
+.snake-side {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.snake-start {
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+}
+.snake-start[hidden] {
+  display: none;
+}
+.snake-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+}
+.snake-stats div {
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 10px 12px;
+}
+.snake-stats dt {
+  font-size: 12px;
+  color: var(--cmt);
+}
+.snake-stats dd {
+  margin: 2px 0 0;
+  font:
+    800 24px / 1.1 "JetBrains Mono Variable",
+    monospace;
+  color: var(--accent);
+}
+.snake-msg {
+  margin: 0;
+  padding: 0 18px 16px;
+  min-height: 1.4em;
+  font-size: 13px;
+  color: var(--fg);
+}
+@media (max-width: 560px) {
+  .snake-body {
+    grid-template-columns: 1fr;
+  }
+  .snake-stats {
+    flex-direction: row;
+  }
+  .snake-stats div {
+    flex: 1;
+  }
+}
