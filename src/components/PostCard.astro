@@ -1,0 +1,54 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import GeneratedCover from "@/components/GeneratedCover.astro";
+import { getPath } from "@/utils/getPath";
+import { getFileName } from "@/utils/getFileName";
+import { formatDate } from "@/utils/formatDate";
+import { readingTime } from "@/utils/readingTime";
+
+export interface Props {
+  post: CollectionEntry<"blog">;
+  index: number;
+  big?: boolean;
+}
+
+const { post, index, big = false } = Astro.props;
+const { title, description, pubDatetime, tags, timezone, cover, coverAlt } =
+  post.data;
+---
+
+<a
+  href={getPath(post.id, post.filePath)}
+  class:list={["pane", { "act big": big }]}
+>
+  <div class="ph">
+    <span class="dot"></span>
+    <span>[{index}] {getFileName(post)}</span>
+    <span class="r">{formatDate(pubDatetime, "MMM D", timezone)}</span>
+  </div>
+  <div class="cv">
+    {
+      cover ? (
+        <Image
+          src={cover}
+          alt={coverAlt ?? ""}
+          layout="none"
+          widths={[480, 800, 1200]}
+          sizes="(min-width: 900px) 540px, 100vw"
+          loading={index < 2 ? "eager" : "lazy"}
+        />
+      ) : (
+        <GeneratedCover seed={post.id} />
+      )
+    }
+  </div>
+  <div class="pb">
+    <div class="mt">
+      {tags.map(tag => <i>#{tag}</i>)}
+      <span>{readingTime(post.body)} min</span>
+    </div>
+    <h3 role="heading" aria-level="2">{title}</h3>
+    {big && <p>{description}</p>}
+  </div>
+</a>

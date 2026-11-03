@@ -1,0 +1,36 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import PostCard from "@/components/PostCard.astro";
+import getSortedPosts from "@/utils/getSortedPosts";
+import { SITE } from "@/config";
+
+const posts = getSortedPosts(await getCollection("blog"));
+---
+
+<Layout
+  title={`Posts | ${SITE.title}`}
+  crumb={[{ label: "~/aoez.dev", href: "/" }, { label: "posts" }]}
+>
+  <main id="main-content" class="frame page">
+    <div class="pin">
+      <div class="cmd">
+        <b>$</b> ls <u>-t</u> posts/ <u>--with-covers</u>
+      </div>
+      <h1 class="pt">Posts</h1>
+      {
+        posts.length === 0 ? (
+          <p class="no-posts">
+            <b>No posts yet.</b> The first one is on its way. Check back soon.
+          </p>
+        ) : (
+          <div class="pgrid">
+            {posts.map((post, i) => (
+              <PostCard {post} index={i} big={i === 0} />
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </main>
+</Layout>

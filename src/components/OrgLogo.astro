@@ -1,0 +1,27 @@
+---
+import { Image } from "astro:assets";
+
+export interface Props {
+  /** logo image; without one a tile with the initials is shown */
+  logo?: ImageMetadata;
+  name: string;
+}
+
+const { logo, name } = Astro.props;
+const initials = name
+  .split(/\s+/)
+  .filter(word => /^[\p{L}\p{N}]/u.test(word))
+  .slice(0, 2)
+  .map(word => word[0].toUpperCase())
+  .join("");
+---
+
+<span class:list={["logo", { fallback: !logo }]} aria-hidden="true">
+  {
+    logo ? (
+      <Image src={logo} alt="" width={44} height={44} widths={[44, 88]} />
+    ) : (
+      initials
+    )
+  }
+</span>
